@@ -19,12 +19,11 @@ func main() {
 
   router := chi.NewMux();
 
-  router.Get("/", handler.HandleHomeIndex)
+  router.Get("/", handler.MakeHandler(handler.HandleHomeIndex))
 
   port := os.Getenv("PORT")
   slog.Info("server started", "port", port)
   log.Fatal(http.ListenAndServe(port, router))
-
 }
 
 
@@ -39,5 +38,4 @@ func initEverything() error {
 
   return nil
   */
-
 }
