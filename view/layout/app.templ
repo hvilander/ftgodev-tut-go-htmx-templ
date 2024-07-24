@@ -1,5 +1,10 @@
 package layout
 
+import (
+  "ftgodev-tut/view/ui"
+)
+
+
 templ App(hasNav bool) {
   <!DOCTYPE html>
   <html lang="en" data-theme="retro">
@@ -14,7 +19,7 @@ templ App(hasNav bool) {
     </head> 
     <body class="antialiased">
       if hasNav {
-        navigation wtf
+        @ui.Navigation()
       }
       { children... }
     </body>
