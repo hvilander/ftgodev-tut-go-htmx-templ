@@ -3,6 +3,7 @@ package main
 import (
   "log"
   "log/slog"
+  "embed"
   "os"
   "net/http"
 
@@ -12,6 +13,9 @@ import (
   "github.com/joho/godotenv"
 )
 
+//go:embed public
+var FS embed.FS
+
 func main() {
   if err := initEverything(); err != nil {
     log.Fatal(err)
@@ -19,6 +23,7 @@ func main() {
 
   router := chi.NewMux();
 
+  router.Handle("/*", http.StripPrefix("/", http.FileServer(http.FS(FS))))
   router.Get("/", handler.MakeHandler(handler.HandleHomeIndex))
 
   port := os.Getenv("PORT")

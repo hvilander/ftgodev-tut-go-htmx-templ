@@ -10,7 +10,10 @@ install:
 	@npm install -D tailwindcss
 	@npm install -D daisyui@latest
 
-	## tailwindcss -i view/css/input.css -o public/styels.c## ss
+css:
+	## action up without npx
+	npx tailwindcss -i view/css/app.css -o public/styles.css
+
 build: 
 	@templ generate view
 	@go build -o bin/ftgodev-tut main.go
