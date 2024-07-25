@@ -1,0 +1,37 @@
+package auth
+
+import (
+  "ftgodev-tut/view/layout"
+)
+
+templ Login() {
+  @layout.App(false)
+  <div class="flex justify-center mt-[calc(100vh-100vh+2rem)]">
+    <div class="max-w-screen-sm w-full bg-base-300 p-8 rounded-xl">
+      <h1 class="text-center text-xl font-black">Login to ftgodev-tut</h1>
+      <div> 
+      <label class="form-control w-full"> 
+        <div class="label">
+          <span class="label-text">e-mail</span>
+        </div>
+        <input type="email"  required autocomplete="off" placeholder="abc@domain.com" class="input input-bordered w-full"/>
+        <div class="label">
+          <span class="label-text-alt text-error">input error</span>
+        </div>
+      </label>
+      <label class="form-control w-full"> 
+        <div class="label">
+          <span class="label-text">password</span>
+        </div>
+        <input type="password" required autocomplete="off" class="input input-bordered w-full" />
+        <div class="label">
+          <span class="label-text-alt text-error">input error</span>
+        </div>
+      </label>
+      <button class="btn btn-primary w-full">
+        login
+      </button>
+      </div>
+    </div>
+  </div>
+}

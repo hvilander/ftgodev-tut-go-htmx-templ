@@ -1,0 +1,20 @@
+package view
+
+import (
+  "ftgodev-tut/models"
+  "context"
+)
+
+templ doh() {
+  <div>wtf</div>
+}
+
+func AuthenticatedUser(ctx context.Context) models.AuthenticatedUser {
+  user, ok := ctx.Value(models.UserContextKey).(models.AuthenticatedUser)
+  if !ok {
+    return models.AuthenticatedUser{}
+  }
+  return user
+
+
+}

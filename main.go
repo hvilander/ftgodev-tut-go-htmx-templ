@@ -22,9 +22,11 @@ func main() {
   }
 
   router := chi.NewMux();
+  router.Use(handler.WithAccess)
 
   router.Handle("/*", http.StripPrefix("/", http.FileServer(http.FS(FS))))
   router.Get("/", handler.MakeHandler(handler.HandleHomeIndex))
+  router.Get("/login", handler.MakeHandler(handler.HandleLoginIndex))
 
   port := os.Getenv("PORT")
   slog.Info("server started", "port", port)
