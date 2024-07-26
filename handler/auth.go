@@ -3,6 +3,8 @@ package handler
 import (
   "net/http"
   "ftgodev-tut/view/auth"
+  "ftgodev-tut/pkg/sb"
+  "ftgodev-tut/pkg/util"
   "github.com/nedpals/supabase-go"
 )
 
@@ -17,11 +19,37 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) error {
     Password: r.FormValue("password"),
   }
 
-  // call supabase
+  if !util.IsValidEmail(creds.Email) {
+    return render(r, w, auth.LoginForm(creds, auth.LoginErrors{
+      Email: "malformed email addr",
+    }))
+  }
+
+  if reason, ok := util.ValidatePassword(creds.Password); !ok {
+    return render(r, w, auth.LoginForm(creds, auth.LoginErrors{
+      Password: reason,
+    }))
+  }
 
 
+   resp, err := sb.Client.Auth.SignIn(r.Context(), creds)
 
-  return render(r, w, auth.LoginForm(creds, auth.LoginErrors{
-    InvalidCreds: "the creds are bad",
-  }))
+   if err != nil {
+     return render(r, w, auth.LoginForm(creds, auth.LoginErrors{
+       InvalidCreds: "the creds are bad",
+     }))
+   }
+
+   // set a cookie
+   cookie := &http.Cookie{
+     Value: resp.AccessToken,
+     Name: "at",
+     HttpOnly: true,
+     Secure: true,
+   }
+
+   http.SetCookie(w, cookie);
+   http.Redirect(w, r, "/", http.StatusSeeOther)
+
+  return nil
 }

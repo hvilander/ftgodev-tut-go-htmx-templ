@@ -8,7 +8,7 @@ import (
   "net/http"
 
   "ftgodev-tut/handler"
-  "ftgodev-tut/pkg/supabase"
+  "ftgodev-tut/pkg/sb"
 
   "github.com/go-chi/chi/v5"
   "github.com/joho/godotenv"
@@ -41,5 +41,5 @@ func initEverything() error {
     return err
   }
 
-  return supabase.Init()
+  return sb.Init()
 }
