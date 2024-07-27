@@ -23,15 +23,18 @@ func main() {
   }
 
   router := chi.NewMux();
-  router.Use(handler.WithAccess)
+  router.Use(handler.WithAccess) // connect middleware
 
   router.Handle("/*", http.StripPrefix("/", http.FileServer(http.FS(FS))))
   router.Get("/", handler.MakeHandler(handler.HandleHomeIndex))
+
   router.Get("/login", handler.MakeHandler(handler.HandleLoginIndex))
   router.Post("/login", handler.MakeHandler(handler.HandleLogin))
 
   router.Get("/signup", handler.MakeHandler(handler.HandleSignupIndex))
   router.Post("/signup", handler.MakeHandler(handler.HandleSignup))
+
+  router.Get("/auth/callback", handler.MakeHandler(handler.HandleAuthCallback))
 
   port := os.Getenv("PORT")
   slog.Info("server started", "port", port)

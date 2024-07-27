@@ -5,6 +5,7 @@ import (
   "strings"
   "context"
   "ftgodev-tut/models"
+  "ftgodev-tut/pkg/sb"
 )
 
 func WithAccess(next http.Handler) http.Handler{
@@ -14,10 +15,30 @@ func WithAccess(next http.Handler) http.Handler{
       return
     }
 
-    user := models.AuthenticatedUser{}
-    ctx := context.WithValue(r.Context(), models.UserContextKey, user)
+    cookie, err := r.Cookie("at") 
 
-    next.ServeHTTP(w,r.WithContext(ctx))
+    if err != nil {
+      // trouble getting cookie out of local storage
+      next.ServeHTTP(w,r)
+      return
+    }
+
+    // check cookie with supa base 
+    resp, err := sb.Client.Auth.User(r.Context(), cookie.Value)
+
+    if err != nil {
+      // not auth'ed maybe?
+      next.ServeHTTP(w,r)
+      return
+    }
+
+    user := models.AuthenticatedUser{
+      Email: resp.Email,
+      IsLoggedIn: true,
+    }
+
+    ctx := context.WithValue(r.Context(), models.UserContextKey, user)
+    next.ServeHTTP(w, r.WithContext(ctx))
   }
 
   return http.HandlerFunc(fn)

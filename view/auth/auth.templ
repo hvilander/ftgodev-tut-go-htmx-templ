@@ -58,7 +58,7 @@ type SignupParams struct {
 templ SignupForm(params SignupParams, errors SignupErrors) {
   <form
     hx-post="/signup" 
-    hx-swap="outerHTML"
+    hx-swap=""
     class="space-y-4"
   >
     <div class="w-full">
@@ -123,7 +123,7 @@ templ SignupForm(params SignupParams, errors SignupErrors) {
 templ LoginForm(creds supabase.UserCredentials, errors LoginErrors) {
   <form
     hx-post="/login" 
-    hx-swap="outerHTML"
+    hx-swap=""
     class="space-y-4"
   >
     <div class="w-full"> 
@@ -169,4 +169,13 @@ templ LoginForm(creds supabase.UserCredentials, errors LoginErrors) {
       login
     </button>
       </form>
+}
+
+
+templ CallbackScript() {
+  <script>
+    var url = window.location.href;
+    var newURL = url.replace("#", "?")
+    window.location = newURL
+  </script>
 }

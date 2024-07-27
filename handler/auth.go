@@ -1,6 +1,7 @@
 package handler
 
 import (
+  "fmt"
   "log/slog"
   "net/http"
   "ftgodev-tut/view/auth"
@@ -65,16 +66,34 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) error {
      }))
    }
 
-   // set a cookie
-   cookie := &http.Cookie{
-     Value: resp.AccessToken,
-     Name: "at", // access token
-     HttpOnly: true,
-     Secure: true,
-   }
-
-   http.SetCookie(w, cookie);
+   setAuthCookie(w, resp.AccessToken)
    http.Redirect(w, r, "/", http.StatusSeeOther)
 
   return nil
+}
+
+
+func HandleAuthCallback (w http.ResponseWriter, r *http.Request) error {
+  at := r.URL.Query().Get("access_token")
+  if len(at) <= 0 {
+    return render(r, w, auth.CallbackScript())
+  }
+
+  return nil
+}
+
+func setAuthCookie(w http.ResponseWriter, accessToken string) {
+
+  fmt.Printf("setting cookie %s\n", accessToken)
+
+  cookie := &http.Cookie{
+     Value: accessToken,
+     Name: "at", // access token
+     HttpOnly: true,
+     Secure: true,
+  // Safari will not set the cooking in local development if secure is true
+  // Probably need https to get that? 
+   }
+
+   http.SetCookie(w, cookie);
 }
