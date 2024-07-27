@@ -13,11 +13,8 @@ func WithAccess(next http.Handler) http.Handler{
       next.ServeHTTP(w,r)
       return
     }
-    // add auth user to every context
-    user := models.AuthenticatedUser{ 
-      Email: "agg@gmail.com",
-      IsLoggedIn: true,
-    }
+
+    user := models.AuthenticatedUser{}
     ctx := context.WithValue(r.Context(), models.UserContextKey, user)
 
     next.ServeHTTP(w,r.WithContext(ctx))

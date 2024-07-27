@@ -30,6 +30,9 @@ func main() {
   router.Get("/login", handler.MakeHandler(handler.HandleLoginIndex))
   router.Post("/login", handler.MakeHandler(handler.HandleLogin))
 
+  router.Get("/signup", handler.MakeHandler(handler.HandleSignupIndex))
+  router.Post("/signup", handler.MakeHandler(handler.HandleSignup))
+
   port := os.Getenv("PORT")
   slog.Info("server started", "port", port)
   log.Fatal(http.ListenAndServe(port, router))
