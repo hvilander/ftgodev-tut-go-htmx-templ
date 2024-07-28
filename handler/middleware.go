@@ -44,5 +44,3 @@ func WithAccess(next http.Handler) http.Handler{
   return http.HandlerFunc(fn)
 }
 
-
-

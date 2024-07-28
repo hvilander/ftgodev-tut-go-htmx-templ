@@ -31,10 +31,13 @@ func main() {
   router.Get("/login", handler.MakeHandler(handler.HandleLoginIndex))
   router.Post("/login", handler.MakeHandler(handler.HandleLogin))
 
+  router.Post("/logout", handler.MakeHandler(handler.HandleLogout))
+
   router.Get("/signup", handler.MakeHandler(handler.HandleSignupIndex))
   router.Post("/signup", handler.MakeHandler(handler.HandleSignup))
 
   router.Get("/auth/callback", handler.MakeHandler(handler.HandleAuthCallback))
+
 
   port := os.Getenv("PORT")
   slog.Info("server started", "port", port)

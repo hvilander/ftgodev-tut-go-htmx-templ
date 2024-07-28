@@ -10,8 +10,23 @@ import (
   "github.com/nedpals/supabase-go"
 )
 
-func HandleLoginIndex(w http.ResponseWriter, r *http.Request) error {
-  return auth.Login().Render(r.Context(), w)
+func HandleLoginIndex(w http.ResponseWriter, r *http.Request) error { return auth.Login().Render(r.Context(), w)
+}
+
+func HandleLogout(w http.ResponseWriter, r *http.Request) error {
+  cookie := http.Cookie{
+    Value: "",
+    Name: "at",
+    MaxAge: -1, // new to me, i bet this sets it up for immediate deletion
+    HttpOnly: true,
+    Path: "/",
+    Secure: true, // this may not be right
+  }
+
+  http.SetCookie(w, &cookie)
+  http.Redirect(w, r, "/login", http.StatusSeeOther)
+
+  return nil
 }
 
 func HandleSignupIndex(w http.ResponseWriter, r *http.Request) error {
