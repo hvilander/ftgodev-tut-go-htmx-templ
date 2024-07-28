@@ -24,9 +24,7 @@ func HandleLogout(w http.ResponseWriter, r *http.Request) error {
   }
 
   http.SetCookie(w, &cookie)
-  http.Redirect(w, r, "/login", http.StatusSeeOther)
-
-  return nil
+  return hxRedirect(w, r, "/login")
 }
 
 func HandleSignupIndex(w http.ResponseWriter, r *http.Request) error {
@@ -82,9 +80,8 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) error {
    }
 
    setAuthCookie(w, resp.AccessToken)
-   http.Redirect(w, r, "/", http.StatusSeeOther)
+   return hxRedirect(w, r, "/")
 
-  return nil
 }
 
 

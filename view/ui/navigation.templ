@@ -20,7 +20,6 @@ templ Navigation() {
             <ul class="p-2 bg-base-100 rounded-t-none">
                <li><a>Settings</a></li>
                @LogoutButton()
-               <li><a>Logout</a></li>
              </ul>
            </details>
          </li>
@@ -35,8 +34,7 @@ templ Navigation() {
 
 
 templ LogoutButton() {
- <form method="POST" action="/logout">
-   <li><button type="submit" class="btn btn-link">Logout</button></li>
- </form>
-
+  <li>
+    <button hx-post="/logout" class="btn ">Logout</button>
+  </li>
 }
