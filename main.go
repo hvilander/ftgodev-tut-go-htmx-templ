@@ -23,7 +23,7 @@ func main() {
   }
 
   router := chi.NewMux();
-  router.Use(handler.WithAccess) // connect middleware
+  router.Use(handler.WithUser) // user may exist 
 
   router.Handle("/*", http.StripPrefix("/", http.FileServer(http.FS(FS))))
   router.Get("/", handler.MakeHandler(handler.HandleHomeIndex))
@@ -38,6 +38,11 @@ func main() {
 
   router.Get("/auth/callback", handler.MakeHandler(handler.HandleAuthCallback))
 
+
+  router.Group(func(auth chi.Router) {
+    auth.Use(handler.WithAuth)
+    auth.Get("/settings", handler.MakeHandler(handler.HandleSettingsIndex))
+  })
 
   port := os.Getenv("PORT")
   slog.Info("server started", "port", port)
