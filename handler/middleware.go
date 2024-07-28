@@ -18,6 +18,10 @@ func WithAuth(next http.Handler) http.Handler {
     user := getAuthenticatedUser(r)
 
     if !user.IsLoggedIn {
+      // usability setup a a redirect after auth
+      //path := r.URL.Path
+      //http.Redirect(w, r, "/login?to=" + path, http.StatusSeeOther)
+      // would need to set a cookie, then read that in the login handler
       http.Redirect(w, r, "/login", http.StatusSeeOther)
     }
 
