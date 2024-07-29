@@ -1,11 +1,16 @@
 package handler
 
+
 import (
+  "os"
   "net/http"
   "strings"
   "context"
   "ftgodev-tut/models"
   "ftgodev-tut/pkg/sb"
+
+  //"github.com/google/uuid"
+	"github.com/gorilla/sessions"
 )
 
 func WithAuth(next http.Handler) http.Handler {
@@ -39,31 +44,34 @@ func WithUser(next http.Handler) http.Handler{
       return
     }
 
-    cookie, err := r.Cookie("at") 
+		store := sessions.NewCookieStore([]byte(os.Getenv("SESSION_SECRET")))
+		session, err := store.Get(r, sessionUserKey)
 
     if err != nil {
-      // trouble getting cookie out of local storage
       next.ServeHTTP(w,r)
       return
     }
 
-    // check cookie with supa base 
-    resp, err := sb.Client.Auth.User(r.Context(), cookie.Value)
-
-    if err != nil {
-      // not auth'ed maybe?
-      next.ServeHTTP(w,r)
+    accessToken := session.Values[sessionAccessTokenKey]
+    if accessToken == nil {
+      next.ServeHTTP(w, r)
       return
     }
 
-    user := models.AuthenticatedUser{
-      Email: resp.Email,
-      IsLoggedIn: true,
-    }
-
-    ctx := context.WithValue(r.Context(), models.UserContextKey, user)
-    next.ServeHTTP(w, r.WithContext(ctx))
-  }
+		resp, err := sb.Client.Auth.User(r.Context(), accessToken.(string))
+		if err != nil {
+			next.ServeHTTP(w, r)
+			return
+		}
+		user := models.AuthenticatedUser{
+			//ID:          uuid.MustParse(resp.ID),
+			Email:       resp.Email,
+			IsLoggedIn:    true,
+			AccessToken: accessToken.(string),
+		}
+		ctx := context.WithValue(r.Context(), models.UserContextKey, user)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	}
 
   return http.HandlerFunc(fn)
 }

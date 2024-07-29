@@ -165,10 +165,10 @@ templ LoginForm(creds supabase.UserCredentials, errors LoginErrors) {
       if len(errors.InvalidCreds) > 0 {
         <div class="text-sm text-error">{errors.InvalidCreds}</div>
       }
-    <button class="btn btn-primary w-full">
-      login
-    </button>
-      </form>
+    <button class="btn btn-primary w-full">login<i class="fa-solid fa-arrow-right"></i></button>
+    <div class="divider">OR</div>
+    <a href="/login/provider/google" class="btn btn-outline w-full">login with google<i class="fa-brands fa-google"></i></a>
+  </form>
 }
 
 
