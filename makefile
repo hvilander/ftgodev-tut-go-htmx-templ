@@ -28,8 +28,11 @@ drop:
 down: # db mirgration down
 	@go run cmd/mirgrate/main.go down
 
+reset: 
+	@go run cmd/migrate/reset/main.go
+
 migration: ## Migrations against the db
-	@migrate create -ext sql -dir comd/migrate/migrations $(filter-out $@,$(MAKECMDGOALS))
+	@migrate create -ext sql -dir cmd/migrate/migrations $(filter-out $@,$(MAKECMDGOALS))
 
 gen:
 	@go run cmd/generate/main.go
