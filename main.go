@@ -9,6 +9,7 @@ import (
 
   "ftgodev-tut/handler"
   "ftgodev-tut/pkg/sb"
+  "ftgodev-tut/db"
 
   "github.com/go-chi/chi/v5"
   "github.com/joho/godotenv"
@@ -53,6 +54,10 @@ func main() {
 // init everything
 func initEverything() error {
   if err := godotenv.Load(); err != nil {
+    return err
+  }
+
+  if err := db.Init(); err != nil {
     return err
   }
 
