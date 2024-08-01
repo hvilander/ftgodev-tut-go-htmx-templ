@@ -3,13 +3,16 @@ package handler
 
 import (
   "os"
+  "errors"
   "net/http"
   "strings"
   "context"
+  "database/sql"
   "ftgodev-tut/models"
   "ftgodev-tut/pkg/sb"
+  "ftgodev-tut/db"
 
-  //"github.com/google/uuid"
+  "github.com/google/uuid"
 	"github.com/gorilla/sessions"
 )
 
@@ -63,12 +66,14 @@ func WithUser(next http.Handler) http.Handler{
 			next.ServeHTTP(w, r)
 			return
 		}
+
 		user := models.AuthenticatedUser{
-			//ID:          uuid.MustParse(resp.ID),
+			ID:          uuid.MustParse(resp.ID),
 			Email:       resp.Email,
 			IsLoggedIn:    true,
-			AccessToken: accessToken.(string),
+			//AccessToken: accessToken.(string),
 		}
+
 		ctx := context.WithValue(r.Context(), models.UserContextKey, user)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	}

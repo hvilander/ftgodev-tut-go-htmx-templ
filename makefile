@@ -23,10 +23,10 @@ up: ## DB migration up
 	@go run cmd/migrate/main.go up
 
 drop:
-	@go rum cmd/drop/main.go up
+	@go run cmd/migrate/main.go drop 
 
 down: # db mirgration down
-	@go run cmd/mirgrate/main.go down
+	@go run cmd/migrate/main.go down
 
 reset: 
 	@go run cmd/migrate/reset/main.go
