@@ -3,11 +3,12 @@ package handler
 
 import (
   "os"
+  "fmt"
+  "database/sql"
   "errors"
   "net/http"
   "strings"
   "context"
-  "database/sql"
   "ftgodev-tut/models"
   "ftgodev-tut/pkg/sb"
   "ftgodev-tut/db"
@@ -36,6 +37,31 @@ func WithAuth(next http.Handler) http.Handler {
     next.ServeHTTP(w, r)
   }
 
+  return http.HandlerFunc(fn)
+}
+
+func WithAccountSetup(next http.Handler) http.Handler {
+  fmt.Println("HELO FROM account setup middleware")
+  fn := func(w http.ResponseWriter, r *http.Request) {
+    user := getAuthenticatedUser(r)
+    account, err := db.GetAccountByUserId(user.ID)
+
+    // the user has not setup acct yet
+    // redirect to /account/setup
+    if err != nil {
+      if errors.Is(err, sql.ErrNoRows) {
+        http.Redirect(w, r, "/account/setup", http.StatusSeeOther)
+        return
+      }
+      next.ServeHTTP(w, r)
+      return
+    }
+
+      user.Account = account
+      ctx := context.WithValue(r.Context(), models.UserContextKey, user)
+      next.ServeHTTP(w, r.WithContext(ctx))
+
+  }
   return http.HandlerFunc(fn)
 }
 

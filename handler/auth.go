@@ -6,6 +6,8 @@ import (
   "net/http"
   "ftgodev-tut/view/auth"
   "ftgodev-tut/pkg/sb"
+  "ftgodev-tut/db"
+  "ftgodev-tut/models"
   "ftgodev-tut/pkg/kit/validate"
   "github.com/nedpals/supabase-go"
   "github.com/gorilla/sessions"
@@ -16,7 +18,39 @@ const (
 	sessionAccessTokenKey = "accessToken"
 )
 
-func HandleLoginIndex(w http.ResponseWriter, r *http.Request) error { return auth.Login().Render(r.Context(), w)
+func HandleAccountSetupIndex(w http.ResponseWriter, r *http.Request) error {
+  return render(r, w, auth.AccountSetup())
+}
+
+func HandleAccountSetup(w http.ResponseWriter, r *http.Request) error {
+  params := auth.AccountSetupParams{
+    Username: r.FormValue("username"),
+  }
+  var errors auth.AccountSetupErrors
+  ok := validate.New(&params, validate.Fields{
+    "Username": validate.Rules(validate.Min(2), validate.Max(50)),
+  }).Validate(&errors)
+
+  if !ok {
+    return render(r,w, auth.AccountSetupForm(params, errors))
+  }
+
+  user := getAuthenticatedUser(r)
+  account := models.Account{
+    UserID: user.ID,
+    Username: params.Username,
+  }
+
+  if err := db.CreateAccount(&account); err != nil {
+    return err
+  }
+
+  return hxRedirect(w,r, "/")
+}
+
+
+func HandleLoginIndex(w http.ResponseWriter, r *http.Request) error {
+  return auth.Login().Render(r.Context(), w)
 }
 
 func HandleLogin(w http.ResponseWriter, r *http.Request) error {

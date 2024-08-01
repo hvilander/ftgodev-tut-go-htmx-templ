@@ -1,0 +1,14 @@
+package settings
+
+import (
+  "ftgodev-tut/view/layout"
+  "ftgodev-tut/models"
+)
+
+
+templ Index(user models.AuthenticatedUser) {
+  @layout.App(true)
+    <div class="max-w-2xl w-full mx-auto mt-4">
+      account
+    </div>
+}
