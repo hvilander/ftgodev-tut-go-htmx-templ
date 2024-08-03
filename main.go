@@ -42,7 +42,6 @@ func main() {
   // AUTH REQUIRED
   router.Group(func(auth chi.Router) {
     auth.Use(handler.WithAccountSetup)
-    auth.Get("/", handler.MakeHandler(handler.HandleHomeIndex))
     auth.Get("/settings", handler.MakeHandler(handler.HandleSettingsIndex))
   })
 

@@ -11,3 +11,6 @@ a course I bought from full time go dev
 make css
 air
 make templ // if this has an error, close any tab with localhost:3000, try again
+
+
+TODO Email log in is borked

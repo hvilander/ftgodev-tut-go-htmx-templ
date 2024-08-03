@@ -9,6 +9,13 @@ import (
 templ Index(user models.AuthenticatedUser) {
   @layout.App(true)
     <div class="max-w-2xl w-full mx-auto mt-4">
-      account
+      <h1 class=" text-lg font-semibold border-b border-gray-700 pb-2"
+      >Profile</h1>
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 items-center mt-8">
+        <dt class="">User Name</dt>
+        <dd class="sm:col-span-2 sm:mt-0"></dd>
+          <input class="input input-bordered w-full max-w-md"/>
+      </div>
+      <button class="btn btn-primary">save</button>
     </div>
 }

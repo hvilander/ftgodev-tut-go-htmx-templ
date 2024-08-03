@@ -3,7 +3,6 @@ package handler
 
 import (
   "os"
-  "fmt"
   "database/sql"
   "errors"
   "net/http"
@@ -41,7 +40,6 @@ func WithAuth(next http.Handler) http.Handler {
 }
 
 func WithAccountSetup(next http.Handler) http.Handler {
-  fmt.Println("HELO FROM account setup middleware")
   fn := func(w http.ResponseWriter, r *http.Request) {
     user := getAuthenticatedUser(r)
     account, err := db.GetAccountByUserId(user.ID)
