@@ -1,0 +1,35 @@
+<div class=\"max-w-xl bg-base-300 px-6 py-12 w-full mx-auto mt-4 rounded-xl\"><h1 class=\"text-xl font-black mb-8 text-center\">Setup your account</h1>
+</div>
+<form hx-post=\"/account/setup\" hx-swap=\"outerHTML\"><label class=\"input input-bordered flex items-center gap-2 mb-4\"><div class=\"label\"><span class=\"label-text-alt\">Username:</span></div><input type=\"text\" name=\"username\" class=\"grow\"><div class=\"label\">
+<span class=\"label-text-alt text-error\">
+</span>
+</div></label> <button class=\"btn btn-primary\">submit</button></form>
+<div class=\"flex justify-center mt-[calc(100vh-100vh+2rem)]\"><div class=\"max-w-md w-full bg-base-300 py-12 px-8 rounded-xl\"><h1 class=\"text-center text-xl font-black\">Login to ftgodev-tut</h1><div>
+</div></div></div>
+<div class=\"flex justify-center mt-[calc(100vh-100vh+2rem)]\"><div class=\"max-w-md w-full bg-base-300 py-12 px-8 rounded-xl\"><h1 class=\"text-center text-xl font-black\">Sign up</h1><div>
+</div></div></div>
+<div>A confirmation email has been sent to: <span class=\"font-semibold text-success\">
+</span></div>
+<form hx-post=\"/signup\" hx-swap=\"\" class=\"space-y-4\"><div class=\"w-full\"><div class=\"label\"><span class=\"label-text\">e-mail</span></div><input type=\"email\" name=\"email\" value=\"
+\" required autocomplete=\"off\" placeholder=\"abc@domain.com\" class=\"input input-bordered w-full\"> 
+<div class=\"label\"><span class=\"label-text-alt text-error\">
+</span></div>
+</div><div class=\"w-full\"><div class=\"label\"><span class=\"label-text\">password</span></div><input type=\"password\" name=\"password\" value=\"\" required autocomplete=\"off\" class=\"input input-bordered w-full\"> 
+<div class=\"label\"><span class=\"label-text-alt text-error\">
+</span></div>
+</div><div class=\"w-full\"><div class=\"label\"><span class=\"label-text\">confirm password</span></div><input type=\"password\" name=\"confirmPassword\" value=\"\" required autocomplete=\"off\" class=\"input input-bordered w-full\"> 
+<div class=\"label\"><span class=\"label-text-alt text-error\">
+</span></div>
+</div><button class=\"btn btn-primary w-full\">sign up </button></form>
+<form hx-post=\"/login\" hx-swap=\"\" class=\"space-y-4\"><div class=\"w-full\"><div class=\"label\"><span class=\"label-text\">e-mail</span></div><input type=\"email\" name=\"email\" value=\"
+\" required autocomplete=\"off\" placeholder=\"abc@domain.com\" class=\"input input-bordered w-full\"> 
+<div class=\"label\"><span class=\"label-text-alt text-error\">
+</span></div>
+</div><label class=\"form-control w-full\"><div class=\"label\"><span class=\"label-text\">password</span></div><input type=\"password\" name=\"password\" value=\"\" required autocomplete=\"off\" class=\"input input-bordered w-full\"> 
+<div class=\"label\"><span class=\"label-text-alt text-error\">
+</span></div>
+</label> 
+<div class=\"text-sm text-error\">
+</div>
+<button class=\"btn btn-primary w-full\">login<i class=\"fa-solid fa-arrow-right\"></i></button><div class=\"divider\">OR</div><a href=\"/login/provider/google\" class=\"btn btn-outline w-full\">login with google<i class=\"fa-brands fa-google\"></i></a></form>
+<script>\n    var url = window.location.href;\n    var newURL = url.replace(\"#\", \"?\")\n    window.location = newURL\n  </script>
