@@ -23,3 +23,13 @@ func CreateAccount(account *models.Account) error {
     Exec(context.Background()) // contriversal maybe don't do this?
   return err
 }
+
+func UpdateAccount(account *models.Account) error {
+  _, err := Bun.NewUpdate().
+    Model(account).
+    WherePK().
+    Exec(context.Background())
+
+  return err
+}
+  
