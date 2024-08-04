@@ -14,3 +14,6 @@ make templ // if this has an error, close any tab with localhost:3000, try again
 
 
 TODO Email log in is borked
+
+
+TODO need some indication that saving is happening and was sucessfull for settings username
