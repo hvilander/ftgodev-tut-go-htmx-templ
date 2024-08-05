@@ -7,6 +7,7 @@ import (
 
 type ProfileParams struct{
   Username string
+  Success bool
 }
 
 type ProfileFormErrors struct{
@@ -56,6 +57,13 @@ templ ProfileSettings(params ProfileParams, errors ProfileFormErrors) {
       <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 items-center mt-8">
         <dt class="">User Name</dt>
         <dd class="sm:col-span-2 sm:mt-0">
+          if params.Success {
+            <div class="toast toast-top toast-end toast-start">
+              <div class="alert alert-success">
+                <span>Profile Saved</span>
+              </div>
+            </div>
+          }
           <input
             class="input input-bordered w-full max-w-sm"
             value={params.Username} name="username"

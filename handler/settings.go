@@ -37,6 +37,7 @@ func HandleProfile(w http.ResponseWriter, r *http.Request) error {
   if err := db.UpdateAccount(&user.Account); err != nil {
     return err
   }
+  params.Success = true;
 
   return render(r, w, settings.ProfileSettings(params, settings.ProfileFormErrors{}))
 }
