@@ -1,7 +1,6 @@
 <div class=\"max-w-2xl w-full mx-auto mt-8\"><div><h1 class=\" text-lg font-semibold border-b border-gray-700 pb-2\">Profile</h1>
 </div><div class=\"mt-10\"><h1 class=\" text-lg font-semibold border-b border-gray-700 pb-2\">Change Password</h1><div class=\"sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 items-center mt-8\"><dt class=\"\">Old Password</dt><dd class=\"sm:col-span-2 sm:mt-0\"><input class=\"input input-bordered w-full max-w-sm\"></dd><dt class=\"\">New Password</dt><dd class=\"sm:col-span-2 sm:mt-0\"><input class=\"input input-bordered w-full max-w-sm\"></dd><dt class=\"\">New Password</dt><dd class=\"sm:col-span-2 sm:mt-0\"><input class=\"input input-bordered w-full max-w-sm\"></dd><dt></dt><dd><button class=\"btn btn-primary\">update password</button></dd></div></div></div>
 <form hx-put=\"/settings/account/profile\" hx-swap=\"outerHTML\"><div class=\"sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 items-center mt-8\"><dt class=\"\">User Name</dt><dd class=\"sm:col-span-2 sm:mt-0\">
-<div class=\"toast toast-top toast-end toast-start\"><div class=\"alert alert-success\"><span>Profile Saved</span></div></div>
 <input class=\"input input-bordered w-full max-w-sm\" value=\"
 \" name=\"username\"> 
 <div class=\"text-sm text-error\">
