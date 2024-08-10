@@ -18,6 +18,23 @@ const (
 	sessionAccessTokenKey = "accessToken"
 )
 
+func HandleResetPassword(w http.ResponseWriter, r *http.Request) error { 
+  return render(r, w, auth.ResetPassword())
+}
+
+func HandleResetPasswordUpdate (w http.ResponseWriter, r *http.Request) error {
+  return hxRedirect(w, r, "/")
+}
+
+func HandleResetPasswordCreate  (w http.ResponseWriter, r *http.Request) error {
+  user := getAuthenticatedUser(r)
+  if err := sb.Client.Auth.ResetPasswordForEmail(r.Context(), user.Email); err != nil {
+    return err
+  }
+
+  return render(r, w, auth.CheckEmailForPasswordReset(user.Email))
+}
+
 func HandleAccountSetupIndex(w http.ResponseWriter, r *http.Request) error {
   return render(r, w, auth.AccountSetup())
 }
@@ -158,3 +175,5 @@ func setAuthSession(r *http.Request, w http.ResponseWriter, accessToken string) 
 
   return session.Save(r,w)
 }
+
+
