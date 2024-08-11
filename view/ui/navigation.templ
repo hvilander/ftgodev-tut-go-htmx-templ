@@ -5,13 +5,14 @@ import (
 )
 
 templ Navigation() {
-<div class="navbar bg-base-100 border-b border-gray-800">
+<div class="navbar bg-base-100 border-b border-app">
   <div class="flex-1">
-    <a class="text-2xl font-black text-secondary">ftgodev-tut</a>
+    <a href="/" class="text-2xl font-black text-secondary">ftgodev-tut</a>
   </div>
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1">
-    if view.AuthenticatedUser(ctx).IsLoggedIn { 
+      if view.AuthenticatedUser(ctx).IsLoggedIn { 
+        <li><a href="/generate"><i class="fa-solid fa-wand-magic-sparkles"></i>Generator</a></li>
         <li>
           <details>
             <summary>

@@ -33,7 +33,7 @@
 </div>
 <button class=\"btn btn-primary w-full\">login<i class=\"fa-solid fa-arrow-right\"></i></button><div class=\"divider\">OR</div><a href=\"/login/provider/google\" class=\"btn btn-outline w-full\">login with google<i class=\"fa-brands fa-google\"></i></a></form>
 <script>\n    var url = window.location.href;\n    var newURL = url.replace(\"#\", \"?\")\n    window.location = newURL\n  </script>
-<div class=\"max-w-2xl w-full mx-auto mt-8\"><h1 class=\"text-lg font-semi-bold border-b border-gray-700 pb-2\">Reset Password</h1><div class=\"py-6\"><div class=\"text-label mb-2\">Enter New Password</div>
+<div class=\"max-w-2xl w-full mx-auto mt-8\"><h1 class=\"text-lg font-semi-bold border-b border-app pb-2\">Reset Password</h1><div class=\"py-6\"><div class=\"text-label mb-2\">Enter New Password</div>
 </div></div>
 <form hx-put=\"/auth/reset-password\" hx-swap=\"outerHTML\"><div class=\"mb-4\"><input class=\"input input-bordered w-full max-w-sm\" name=\"password\" type=\"password\"> 
 <div class=\"text-sm text-error mt-1\">

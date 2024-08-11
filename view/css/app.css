@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* customizations go here */
+.border-app {
+  @apply border-gray-700
+}
