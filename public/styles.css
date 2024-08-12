@@ -1746,10 +1746,6 @@ html {
   display: flex;
 }
 
-.h-screen {
-  height: 100vh;
-}
-
 .h-\[calc\(100vh-69px\)\] {
   height: calc(100vh - 69px);
 }
@@ -1827,21 +1823,6 @@ html {
 
 .border-r {
   border-right-width: 1px;
-}
-
-.border-gray-300 {
-  --tw-border-opacity: 1;
-  border-color: rgb(209 213 219 / var(--tw-border-opacity));
-}
-
-.border-gray-700 {
-  --tw-border-opacity: 1;
-  border-color: rgb(55 65 81 / var(--tw-border-opacity));
-}
-
-.border-gray-800 {
-  --tw-border-opacity: 1;
-  border-color: rgb(31 41 55 / var(--tw-border-opacity));
 }
 
 .bg-base-100 {
