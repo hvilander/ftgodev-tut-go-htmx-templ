@@ -2,6 +2,7 @@ package generate
 
 
 import (
+  "fmt" 
   "ftgodev-tut/view/layout"
   "ftgodev-tut/models"
 )
@@ -54,7 +55,12 @@ templ GalleryImage(image models.Image) {
       <i class="fa-solid fa-bomb"></i>
     </div>
    } else if image.Status == models.ImageStatusPending{
-    <div class="bg-base-100 aspect-[3/4] rounded-xl flex justify-center items-center">
+     // this div is going to poll every second
+    <div
+      hx-get={fmt.Sprintf("/generate/image/status/%d", image.ID)}
+      hx-trigger="load delay:3s" 
+      class="bg-base-100 aspect-[3/4] rounded-xl flex justify-center items-center"
+    >
       <span class="loading loading-spinner laoding-lg"></span>
     </div>
   }

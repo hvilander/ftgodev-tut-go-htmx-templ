@@ -55,6 +55,8 @@ func main() {
 
     auth.Get("/generate", handler.MakeHandler(handler.HandleGenerateIndex))
     auth.Post("/generate", handler.MakeHandler(handler.HandleGenerateCreate))
+
+    auth.Get("/generate/image/status/{id}", handler.MakeHandler(handler.HandleGenerateImageStatus))
   })
 
   port := os.Getenv("PORT")
