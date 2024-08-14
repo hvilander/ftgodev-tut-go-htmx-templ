@@ -54,6 +54,7 @@ func main() {
     auth.Get("/auth/reset-password", handler.MakeHandler(handler.HandleResetPassword))
 
     auth.Get("/generate", handler.MakeHandler(handler.HandleGenerateIndex))
+    auth.Post("/generate", handler.MakeHandler(handler.HandleGenerateCreate))
   })
 
   port := os.Getenv("PORT")

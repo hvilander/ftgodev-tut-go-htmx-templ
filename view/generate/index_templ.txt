@@ -1,5 +1,7 @@
-<div class=\"flex w-full h-[calc(100vh-69px)]\"><div class=\"w-[400px] border-r border-app\">Generate form</div><div class=\"flex-1 bg-base-300\">Images
+<div class=\"flex w-full h-[calc(100vh-69px)]\"><div class=\"w-[400px] border-r border-app p-4\">
+</div><div class=\"flex-1 bg-base-300\">Images
 </div></div>
+<form hx-post=\"/generate\" hx-swap=\"afterbegin\" hx-target=\"#gallery\"><div><button class=\"btn btn-primary w-full\">generate<i class=\"fa-solid fa-arrow-right\"></i></button></div></form>
 <div class=\"grid grid-cols-4 p-4 gap-4 w-full\" id=\"gallery\">
 </div>
 <div class=\"bg-green aspect-[3/4] rounded-xl \"></div>

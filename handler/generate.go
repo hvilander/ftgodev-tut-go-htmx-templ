@@ -7,9 +7,13 @@ import (
 )
 
 func HandleGenerateIndex(w http.ResponseWriter, r *http.Request) error {
-  images := make([]models.Image, 20)
-  data := generate.ViewData{Images: images}
+  //images := make([]models.Image, 20)
+  data := generate.ViewData{Images: []models.Image{}}
 
-  images[0].Status = models.ImageStatusPending
+  //images[0].Status = models.ImageStatusPending
   return render(r, w, generate.Index(data))
+}
+
+func HandleGenerateCreate(w http.ResponseWriter, r *http.Request) error {
+  return render(r, w, generate.GalleryImage(models.Image{Status: models.ImageStatusPending}))
 }
