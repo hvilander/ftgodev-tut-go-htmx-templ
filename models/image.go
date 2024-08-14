@@ -9,6 +9,8 @@ type ImageStatus int
 
 const (
   ImageStatusFailed ImageStatus = iota
+  ImageStatusPending 
+  ImageStatusCompleted 
 )
 
 type Image struct {
