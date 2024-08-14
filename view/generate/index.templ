@@ -19,7 +19,7 @@ templ Index(data ViewData) {
       <div class="w-[400px] border-r border-app p-4">
         @Form()
       </div>
-      <div class="flex-1 bg-base-300">Images
+      <div class="flex-1 bg-base-300">
       @Gallery(data.Images)
     </div>
   </div>
@@ -49,9 +49,11 @@ templ Gallery(images []models.Image) {
 
 templ GalleryImage(image models.Image) {
   if image.Status == models.ImageStatusCompleted {
-    <div class="bg-green aspect-[3/4] rounded-xl "></div>
+    <div class="bg-green aspect-[2/3] rounded-xl">
+      <img class="object-cover rounded-xl" src={image.Location}/>
+    </div>
   } else if image.Status == models.ImageStatusFailed{
-    <div class="bg-base-100 aspect-[3/4] rounded-xl flex justify-center items-center">
+    <div class="bg-base-100 aspect-[2/3] rounded-xl flex justify-center items-center">
       <i class="fa-solid fa-bomb"></i>
     </div>
    } else if image.Status == models.ImageStatusPending{
@@ -59,7 +61,7 @@ templ GalleryImage(image models.Image) {
     <div
       hx-get={fmt.Sprintf("/generate/image/status/%d", image.ID)}
       hx-trigger="load delay:3s" 
-      class="bg-base-100 aspect-[3/4] rounded-xl flex justify-center items-center"
+      class="bg-base-100 aspect-[2/3] rounded-xl flex justify-center items-center"
     >
       <span class="loading loading-spinner laoding-lg"></span>
     </div>

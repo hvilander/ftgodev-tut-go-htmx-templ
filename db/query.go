@@ -6,6 +6,16 @@ import (
   "ftgodev-tut/models"
 )
 
+func GetImagesByUserID(userID uuid.UUID) ([]models.Image, error) {
+  var images []models.Image
+  err := Bun.NewSelect().
+    Model(&images).
+    Where("deleted = ? ", false).
+    Where("user_id = ? ", userID).
+    Scan(context.Background())
+  return images, err
+}
+
 func GetAccountByUserId (id uuid.UUID) (models.Account, error) {
   var account models.Account
   err := Bun.NewSelect().

@@ -21,5 +21,6 @@ type Image struct {
   Prompt string 
   deleted bool `bun:"default:'false'"`
   DeletedAt time.Time
-  CreatedAt time.Time `bun:"default 'now()'"`
+  CreatedAt time.Time `bun:"default:'now()'"`
+  Location string
 }
