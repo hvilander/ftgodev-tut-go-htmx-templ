@@ -6,12 +6,29 @@ import (
   "ftgodev-tut/models"
 )
 
+func CreateImage(image *models.Image) error {
+  _, err := Bun.NewInsert().
+    Model(image).
+    Exec(context.Background())
+  return err
+}
+
+func GetImageByID(id int) (models.Image, error) {
+  var image models.Image
+  err := Bun.NewSelect().
+    Model(&image).
+    Where("id= ? ", id).
+    Scan(context.Background())
+  return image, err
+}
+
 func GetImagesByUserID(userID uuid.UUID) ([]models.Image, error) {
   var images []models.Image
   err := Bun.NewSelect().
     Model(&images).
     Where("deleted = ? ", false).
     Where("user_id = ? ", userID).
+    Order("created_at desc").
     Scan(context.Background())
   return images, err
 }

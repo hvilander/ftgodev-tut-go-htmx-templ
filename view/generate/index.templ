@@ -53,7 +53,7 @@ templ GalleryImage(image models.Image) {
       <img class="object-cover rounded-xl" src={image.Location}/>
     </div>
   } else if image.Status == models.ImageStatusFailed{
-    <div class="bg-base-100 aspect-[2/3] rounded-xl flex justify-center items-center">
+    <div class="bg-base-100 aspect-[2/3] rounded-xl flex justify-center items-center cursor-pointer">
       <i class="fa-solid fa-bomb"></i>
     </div>
    } else if image.Status == models.ImageStatusPending{
@@ -63,7 +63,7 @@ templ GalleryImage(image models.Image) {
       hx-trigger="load delay:3s" 
       class="bg-base-100 aspect-[2/3] rounded-xl flex justify-center items-center"
     >
-      <span class="loading loading-spinner laoding-lg"></span>
+      <span class="loading loading-spinner loading-lg"></span>
     </div>
   }
 }

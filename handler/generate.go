@@ -1,12 +1,12 @@
 package handler
 
 import (
+  "strconv"
   "net/http"
   "ftgodev-tut/view/generate"
   "ftgodev-tut/models"
   "ftgodev-tut/db"
   "github.com/go-chi/chi/v5"
-  "log/slog"
 )
 
 func HandleGenerateIndex(w http.ResponseWriter, r *http.Request) error {
@@ -21,21 +21,18 @@ func HandleGenerateIndex(w http.ResponseWriter, r *http.Request) error {
 }
 
 func HandleGenerateImageStatus(w http.ResponseWriter, r *http.Request) error {
-  id := chi.URLParam(r, "id")
-  slog.Info("EHLO from image status", "id", id)
-
-  // todo fetch from db
-  image := models.Image{
-    Status: models.ImageStatusPending,
+  id, err := strconv.Atoi(chi.URLParam(r, "id"))
+  if err != nil {
+    return err
   }
-  return render(r, w, generate.GalleryImage(image))
-}
 
-func CreateImage(image *models.Image) err {
-  _, err := Bun.NewInsert().
-    Model(image).
-    Exec(context.Background())
-  return err
+  image, err := db.GetImageByID(id)
+  if err != nil {
+    return err
+  }
+
+
+  return render(r, w, generate.GalleryImage(image))
 }
 
 func HandleGenerateCreate(w http.ResponseWriter, r *http.Request) error {
@@ -44,7 +41,13 @@ func HandleGenerateCreate(w http.ResponseWriter, r *http.Request) error {
   img := models.Image{
     Prompt: prompt,
     UserID: user.ID,
+    Status: 1,
   }
 
-  return render(r, w, generate.GalleryImage(models.Image{Status: models.ImageStatusPending}))
+  if err := db.CreateImage(&img); err != nil {
+    return err
+  }
+
+  return render(r, w, generate.GalleryImage(img))
 }
+
