@@ -9,3 +9,5 @@ bin
 
 
 tmp
+
+view/**/*.txt
