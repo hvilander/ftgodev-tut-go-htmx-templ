@@ -1,7 +1,20 @@
 <div class=\"flex w-full h-[calc(100vh-69px)]\"><div class=\"w-[400px] border-r border-app p-4\">
 </div><div class=\"flex-1 bg-base-300\">
 </div></div>
-<form hx-post=\"/generate\" hx-swap=\"afterbegin\" hx-target=\"#gallery\"><div><button class=\"btn btn-primary w-full\">generate<i class=\"fa-solid fa-arrow-right\"></i></button></div></form>
+<form hx-post=\"/generate\" hx-swap=\"outerHTML\"><div><label class=\"form-control\"><div class=\"label\"><span class=\"label-text\">enter your prompt</span></div><textarea class=\"textarea textarea-bordered h-24\" placehodler=\"fire truck in fist fight\" name=\"prompt\">
+</textarea> 
+<div class=\"label\"><span class=\"label-text text-error\">
+</span></div>
+</label> <label class=\"form-control my-4\"><div class=\"label\"><span class=\"label-text\">Pick a thing</span></div><div class=\"join\">
+<input class=\"join-item btn\" type=\"radio\" name=\"amount\"
+ checked
+ value=\"
+\" aria-label=\"
+\">
+</div>
+<div class=\"label\"><span class=\"label-text text-error\">
+</span></div>
+</label> <button class=\"btn btn-primary w-full mt-4\">generate<i class=\"fa-solid fa-arrow-right\"></i></button></div></form>
 <div class=\"grid grid-cols-4 p-4 gap-4 w-full\" id=\"gallery\">
 </div>
 <div class=\"bg-green aspect-[2/3] rounded-xl\"><img class=\"object-cover rounded-xl\" src=\"

@@ -1,12 +1,18 @@
 package handler
 
+
 import (
+	"github.com/uptrace/bun"
+  "context"
+  "database/sql"
   "strconv"
   "net/http"
   "ftgodev-tut/view/generate"
   "ftgodev-tut/models"
   "ftgodev-tut/db"
   "github.com/go-chi/chi/v5"
+  "github.com/google/uuid"
+  "ftgodev-tut/pkg/kit/validate"
 )
 
 func HandleGenerateIndex(w http.ResponseWriter, r *http.Request) error {
@@ -16,7 +22,11 @@ func HandleGenerateIndex(w http.ResponseWriter, r *http.Request) error {
     return err
   }
 
-  data := generate.ViewData{Images: images}
+  data := generate.ViewData{
+    Images: images,
+    FormParams: generate.FormParams{},
+    FormErrors: generate.FormErrors{},
+  }
   return render(r, w, generate.Index(data))
 }
 
@@ -37,17 +47,48 @@ func HandleGenerateImageStatus(w http.ResponseWriter, r *http.Request) error {
 
 func HandleGenerateCreate(w http.ResponseWriter, r *http.Request) error {
   user := getAuthenticatedUser(r)
-  prompt := "sexy lambo"
-  img := models.Image{
-    Prompt: prompt,
-    UserID: user.ID,
-    Status: 1,
+  amount, _ := strconv.Atoi(r.FormValue("amount"))
+
+  params := generate.FormParams{
+    Prompt: r.FormValue("prompt"),
+    Amount: amount,
   }
 
-  if err := db.CreateImage(&img); err != nil {
-    return err
+  var errors generate.FormErrors
+
+  if amount <= 0 || amount > 8 {
+    errors.Amount = "invalid amount"
   }
 
-  return render(r, w, generate.GalleryImage(img))
+  ok := validate.New(params, validate.Fields{
+    "Prompt": validate.Rules(validate.Min(10), validate.Max(100)),
+  }).Validate(&errors)
+
+  if !ok {
+    return render(r,w, generate.Form(params, errors))
+  }
+
+  err := db.Bun.RunInTx(
+    r.Context(), &sql.TxOptions{}, func(ctx context.Context, tx bun.Tx) error {
+      batchID := uuid.New()
+      for i :=0; i < amount; i++ {
+        img := models.Image{
+          Prompt: params.Prompt,
+          UserID: user.ID,
+          Status: models.ImageStatusPending,
+          BatchID: batchID,
+        }
+        if err := db.CreateImage(&img); err != nil {
+          return err
+        }
+      }
+      return nil
+  })
+
+  if err != nil {
+    return nil
+  }
+
+  return hxRedirect(w, r, "/generate")
 }
 

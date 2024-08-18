@@ -3,6 +3,7 @@ package view
 import (
   "ftgodev-tut/models"
   "context"
+  "strconv"
 )
 
 templ doh() {
@@ -15,6 +16,8 @@ func AuthenticatedUser(ctx context.Context) models.AuthenticatedUser {
     return models.AuthenticatedUser{}
   }
   return user
+}
 
-
+func String(i int) string {
+  return strconv.Itoa(i)
 }

@@ -14,13 +14,14 @@ const (
 )
 
 type Image struct {
-  ID int `bun:"id,pk,autoincrement"`
-  UserID uuid.UUID
-  Status ImageStatus
-  ExternalID string
-  Prompt string 
-  deleted bool `bun:"default:'false'"`
-  DeletedAt time.Time
-  CreatedAt time.Time `bun:"default:'now()'"`
-  Location string
+  ID int      `bun:"id,pk,autoincrement"`
+  UserID      uuid.UUID
+  Status      ImageStatus
+  BatchID     uuid.UUID
+  ExternalID  string
+  Prompt      string 
+  deleted     bool `bun:"default:'false'"`
+  DeletedAt   time.Time
+  CreatedAt   time.Time `bun:"default:'now()'"`
+  Location    string
 }

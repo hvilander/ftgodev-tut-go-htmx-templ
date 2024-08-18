@@ -3,6 +3,7 @@ create table if not exists images(
   user_id uuid references auth.users,
   status int not null default 1, /* 1 is pending */
   external_id text, /* cloud storage image id */
+  batch_id uuid not null,
   prompt text not null,
   deleted boolean not null default 'false', /* soft delete */
   deleted_at timestamp,

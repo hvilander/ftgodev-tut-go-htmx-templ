@@ -5,19 +5,21 @@ import (
   "fmt" 
   "ftgodev-tut/view/layout"
   "ftgodev-tut/models"
+  "ftgodev-tut/view"
 )
 
 
 type ViewData struct {
-  Images []models.Image
-
+  Images      []models.Image
+  FormErrors  FormErrors
+  FormParams  FormParams
 }
 
 templ Index(data ViewData) {
   @layout.App(true) {
     <div class="flex w-full h-[calc(100vh-69px)]">
       <div class="w-[400px] border-r border-app p-4">
-        @Form()
+        @Form(data.FormParams, data.FormErrors)
       </div>
       <div class="flex-1 bg-base-300">
       @Gallery(data.Images)
@@ -26,14 +28,68 @@ templ Index(data ViewData) {
   }
 }
 
-templ Form() {
+type FormParams struct {
+  Prompt string
+  Amount int
+}
+
+type FormErrors struct {
+  Prompt string
+  Amount string 
+}
+
+var amounts = []string { "1", "2", "5"}
+
+    //hx-target="#gallery"
+templ Form(params FormParams, errors FormErrors) {
   <form
     hx-post="/generate"
-    hx-swap="afterbegin"
-    hx-target="#gallery"
+    hx-swap="outerHTML"
   >
     <div>
-      <button class="btn btn-primary w-full">generate<i class="fa-solid fa-arrow-right"></i></button>
+      <label class="form-control">
+        <div class="label">
+          <span class="label-text">enter your prompt</span>
+        </div>
+        <textarea
+          class="textarea textarea-bordered h-24"
+          placehodler="fire truck in fist fight"
+          name="prompt"
+        >
+          { params.Prompt }
+        </textarea>
+        if len(errors.Prompt) > 0 {
+          <div class="label">
+            <span class="label-text text-error">{ errors.Prompt }</span>
+          </div>
+        }
+      </label>
+      <label class="form-control my-4">
+        <div class="label">
+          <span class="label-text">Pick a thing</span>
+        </div>
+       <div class="join">
+       for _, amount := range amounts {
+          <input
+            class="join-item btn"
+            type="radio"
+            name="amount"
+            if view.String(params.Amount) == amount {
+              checked
+            }
+            value={ amount }
+            aria-label={ amount }
+          />
+       }
+       </div>
+        if len(errors.Amount) > 0 {
+          <div class="label">
+            <span class="label-text text-error">{ errors.Amount}</span>
+          </div>
+        }
+
+       </label>
+      <button class="btn btn-primary w-full mt-4">generate<i class="fa-solid fa-arrow-right"></i></button>
     </div>
   </form>
 }
