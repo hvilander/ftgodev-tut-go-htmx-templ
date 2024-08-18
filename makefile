@@ -12,10 +12,10 @@ install:
 
 css:
 	## action up without npx
-	tailwindcss -i view/css/app.css -o public/styles.css --watch
+	@tailwindcss -i view/css/app.css -o public/styles.css --watch
 
 templ:
-	@templ generate -watch -proxy="http://localhost:3000"
+	@templ generate --watch --proxy="http://localhost:3000"
 
 build: 
 	tailwindcss -i view/css/input.css -o public/styles.css

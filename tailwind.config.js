@@ -2,7 +2,7 @@
 
 /** @type {import{'tailwindcss').Config} */
 module.exports = {
-  content: ["./view/*.templ", "./**/*.templ"],
+  content: ["./**/*.html",  "./**/*.templ", "./**/*.go"],
   safelist: [],
   theme: { },
   plugins: [require("daisyui")],
