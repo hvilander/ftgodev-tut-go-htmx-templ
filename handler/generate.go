@@ -2,17 +2,22 @@ package handler
 
 
 import (
-	"github.com/uptrace/bun"
+  "fmt"
   "context"
   "database/sql"
   "strconv"
   "net/http"
+  "log"
+
   "ftgodev-tut/view/generate"
   "ftgodev-tut/models"
   "ftgodev-tut/db"
+  "ftgodev-tut/pkg/kit/validate"
+
+	"github.com/uptrace/bun"
+  "github.com/replicate/replicate-go"
   "github.com/go-chi/chi/v5"
   "github.com/google/uuid"
-  "ftgodev-tut/pkg/kit/validate"
 )
 
 func HandleGenerateIndex(w http.ResponseWriter, r *http.Request) error {
@@ -68,9 +73,22 @@ func HandleGenerateCreate(w http.ResponseWriter, r *http.Request) error {
     return render(r,w, generate.Form(params, errors))
   }
 
+  batchID := uuid.New()
+
+  genParams := GenerateImageParams{
+    Prompt: params.Prompt,
+    Amount: params.Amount,
+    UserID: user.ID,
+    BatchID: batchID,
+  }
+
+  genErr:= generateImages(r.Context(), genParams)
+  if genErr != nil {
+    return genErr 
+  }
+
   err := db.Bun.RunInTx(
     r.Context(), &sql.TxOptions{}, func(ctx context.Context, tx bun.Tx) error {
-      batchID := uuid.New()
       for i :=0; i < amount; i++ {
         img := models.Image{
           Prompt: params.Prompt,
@@ -92,3 +110,41 @@ func HandleGenerateCreate(w http.ResponseWriter, r *http.Request) error {
   return hxRedirect(w, r, "/generate")
 }
 
+type GenerateImageParams struct {
+  Prompt string
+  Amount int
+  BatchID uuid.UUID
+  UserID uuid.UUID
+}
+
+func generateImages(ctx context.Context, params GenerateImageParams) error {
+  r8, err := replicate.NewClient(replicate.WithTokenFromEnv())
+  if err != nil {
+    log.Fatal("error setting up replicate client", err)
+  }
+
+  version := "ac732df83cea7fff18b8472768c88ad041fa750ff7682a21affe81863cbe77e4"
+
+  input := replicate.PredictionInput {
+    "prompt": params.Prompt,
+    "num_outputs": params.Amount,
+  }
+
+  baseURL := "https://webhook.site/fff3ee71-9efe-41b4-8f66-93dda162e2af" 
+  url := fmt.Sprintf("%s/%s/%s", baseURL, params.UserID, params.BatchID)
+
+  // from webhook.site
+  webhook := replicate.Webhook{
+    URL: url,
+    Events: []replicate.WebhookEventType{"start", "completed"},
+  }
+
+  //run a model and wait for its output
+  _, err = r8.CreatePrediction(ctx, version, input, &webhook, false)
+
+  if err != nil {
+    return err
+  }
+  return nil
+
+}
