@@ -22,6 +22,16 @@ func GetImageByID(id int) (models.Image, error) {
   return image, err
 }
 
+func GetImagesByBatchID(batchID uuid.UUID) ([]models.Image, error) {
+  var images []models.Image
+  err := Bun.NewSelect().
+    Model(&images).
+    Where("batch_id = ? ", batchID).
+    Order("created_at desc").
+    Scan(context.Background())
+  return images, err
+}
+
 func GetImagesByUserID(userID uuid.UUID) ([]models.Image, error) {
   var images []models.Image
   err := Bun.NewSelect().
@@ -31,6 +41,14 @@ func GetImagesByUserID(userID uuid.UUID) ([]models.Image, error) {
     Order("created_at desc").
     Scan(context.Background())
   return images, err
+}
+func UpdateImage(image *models.Image) error {
+  _, err := Bun.NewUpdate().
+    Model(image).
+    WherePK().
+    Exec(context.Background())
+
+  return err
 }
 
 func GetAccountByUserId (id uuid.UUID) (models.Account, error) {

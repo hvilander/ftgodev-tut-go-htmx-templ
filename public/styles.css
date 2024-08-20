@@ -2962,6 +2962,14 @@ input.tab:checked + .tab-content,
   aspect-ratio: 2/3;
 }
 
+.aspect-\[1\/1\] {
+  aspect-ratio: 1/1;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
 .size-1 {
   width: 0.25rem;
   height: 0.25rem;

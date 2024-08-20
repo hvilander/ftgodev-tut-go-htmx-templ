@@ -87,11 +87,9 @@ func HandleGenerateCreate(w http.ResponseWriter, r *http.Request) error {
     return genErr 
   }
 
-  err := db.Bun.RunInTx(
-    r.Context(), &sql.TxOptions{}, func(ctx context.Context, tx bun.Tx) error {
-      for i :=0; i < amount; i++ {
+  err := db.Bun.RunInTx( r.Context(), &sql.TxOptions{}, func(ctx context.Context, tx bun.Tx) error {
+    for i :=0; i < amount; i++ {
         img := models.Image{
-          Prompt: params.Prompt,
           UserID: user.ID,
           Status: models.ImageStatusPending,
           BatchID: batchID,

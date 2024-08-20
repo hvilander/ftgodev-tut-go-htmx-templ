@@ -105,11 +105,11 @@ templ Gallery(images []models.Image) {
 
 templ GalleryImage(image models.Image) {
   if image.Status == models.ImageStatusCompleted {
-    <div class="bg-green aspect-[2/3] rounded-xl">
+    <div class="aspect-square rounded-xl">
       <img class="object-cover rounded-xl" src={image.Location}/>
     </div>
   } else if image.Status == models.ImageStatusFailed{
-    <div class="bg-base-100 aspect-[2/3] rounded-xl flex justify-center items-center cursor-pointer">
+    <div class="bg-base-100 aspect-square rounded-xl flex justify-center items-center cursor-pointer">
       <i class="fa-solid fa-bomb"></i>
     </div>
    } else if image.Status == models.ImageStatusPending{
@@ -117,7 +117,7 @@ templ GalleryImage(image models.Image) {
     <div
       hx-get={fmt.Sprintf("/generate/image/status/%d", image.ID)}
       hx-trigger="load delay:3s" 
-      class="bg-base-100 aspect-[2/3] rounded-xl flex justify-center items-center"
+      class="bg-base-100 aspect-square rounded-xl flex justify-center items-center"
     >
       <span class="loading loading-spinner loading-lg"></span>
     </div>

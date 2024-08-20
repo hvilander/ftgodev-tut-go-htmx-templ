@@ -32,7 +32,7 @@ func main() {
   router.Get("/signup", handler.MakeHandler(handler.HandleSignupIndex))
   router.Post("/signup", handler.MakeHandler(handler.HandleSignup))
   router.Get("/auth/callback", handler.MakeHandler(handler.HandleAuthCallback))
-  router.Post("replicate/callback/{user_id}/{batch_id}", handler.MakeHandler(handler.HandleReplicateCallback))
+  router.Post("/replicate/callback/{userID}/{batchID}", handler.MakeHandler(handler.HandleReplicateCallback))
 
   // Auth required
   router.Group( func(auth chi.Router) {

@@ -17,3 +17,10 @@ TODO Email log in is borked
 TODO need some indication that saving is happening and was sucessfull for settings username
 TODO get this working on safari
 TOOD password reset flow needs some help; waiting since the tut is going in circles
+
+TODO add image storing to S3
+
+TODO Webhook url would need added as prod url
+TODO play with testing using curl?
+
+TODO deal with failed statuses - error message for NSFW stuff 
