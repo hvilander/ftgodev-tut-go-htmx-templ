@@ -3,6 +3,7 @@ package settings
 import (
   "ftgodev-tut/view/layout"
   "ftgodev-tut/view/ui"
+  "ftgodev-tut/view"
   "ftgodev-tut/models"
 )
 
@@ -15,32 +16,46 @@ type ProfileFormErrors struct{
   Username string
 }
 
-
 templ Index(user models.AuthenticatedUser) {
   @layout.App(true)
     <div class="max-w-2xl w-full mx-auto mt-8">
       <div>
-      <h1 class=" text-lg font-semibold border-b border-app pb-2">Profile</h1>
-      @ProfileSettings(
-        ProfileParams{ Username: user.Account.Username },
-        ProfileFormErrors{},
-      )  
-    </div>
-    <div class="mt-10">
-      <h1 class=" text-lg font-semibold border-b border-app pb-2">Change Password</h1>
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 items-center mt-8">
-      <dt class="">Reset Password</dt>
-      <dd class="">
-      <button
-        hx-post="/auth/reset-password"
-        hx-swap="outerHTML"
-        class="btn btn-primary"
-      >
-        Reset Password
-      </button>
-      </dd>
+        <h1 class=" text-lg font-semibold border-b border-app pb-2">Profile</h1>
+        @ProfileSettings(
+          ProfileParams{ Username: user.Account.Username },
+          ProfileFormErrors{},
+        )  
       </div>
-    </div>
+    <div class="mt-10">
+        <h1 class=" text-lg font-semibold border-b border-app pb-2">Credits</h1>
+        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 items-center mt-8">
+          <dt class="">Credits</dt>
+          <dd class="sm:col-span-1 sm:mt-0">
+          <span>{view.String(user.Account.Credits)}</span>
+          </dd>
+          <dd class="sm:col-span-1 sm:mt-0">
+            <button class="btn btn-outline">
+              <i class="fa-solid fa-money-bill-transfer"></i>
+              Buy Credits
+            </button>
+          </dd>
+        </div>
+      </div>
+      <div class="mt-10">
+        <h1 class=" text-lg font-semibold border-b border-app pb-2">Change Password</h1>
+        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 items-center mt-8">
+          <dt class="">Reset Password</dt>
+          <dd class="">
+            <button
+              hx-post="/auth/reset-password"
+              hx-swap="outerHTML"
+              class="btn btn-primary"
+            >
+            Reset Password
+            </button>
+          </dd>
+        </div>
+      </div>
     </div>
 }
 

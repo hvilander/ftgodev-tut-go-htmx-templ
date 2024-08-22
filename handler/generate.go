@@ -20,6 +20,9 @@ import (
   "github.com/google/uuid"
 )
 
+
+const creditsPerImage = 2
+
 func HandleGenerateIndex(w http.ResponseWriter, r *http.Request) error {
   user := getAuthenticatedUser(r) 
   images, err := db.GetImagesByUserID(user.ID)
@@ -73,8 +76,13 @@ func HandleGenerateCreate(w http.ResponseWriter, r *http.Request) error {
     return render(r,w, generate.Form(params, errors))
   }
 
-  batchID := uuid.New()
+  creditsNeeded := params.Amount * creditsPerImage
+  if user.Account.Credits < creditsNeeded {
+    errors.AdditionalCreditsNeeded = creditsNeeded - user.Account.Credits
+    return render(r,w, generate.Form(params, errors))
+  }
 
+  batchID := uuid.New()
   genParams := GenerateImageParams{
     Prompt: params.Prompt,
     Amount: params.Amount,

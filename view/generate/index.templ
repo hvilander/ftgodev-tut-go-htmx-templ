@@ -6,6 +6,7 @@ import (
   "ftgodev-tut/view/layout"
   "ftgodev-tut/models"
   "ftgodev-tut/view"
+  "ftgodev-tut/view/ui"
 )
 
 
@@ -34,8 +35,9 @@ type FormParams struct {
 }
 
 type FormErrors struct {
-  Prompt string
-  Amount string 
+  Prompt  string
+  Amount  string 
+  AdditionalCreditsNeeded int 
 }
 
 var amounts = []string { "1", "2", "5"}
@@ -92,6 +94,9 @@ templ Form(params FormParams, errors FormErrors) {
       <button class="btn btn-primary w-full mt-4">generate<i class="fa-solid fa-arrow-right"></i></button>
     </div>
   </form>
+  if errors.AdditionalCreditsNeeded > 0  {
+    @ui.CreditsModal(errors.AdditionalCreditsNeeded)
+  }
 }
 
 templ Gallery(images []models.Image) {
