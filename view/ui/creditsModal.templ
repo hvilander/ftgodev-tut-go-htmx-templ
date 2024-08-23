@@ -7,11 +7,12 @@ templ CreditsModal(creditsNeeded int) {
   <dialog id="credits_modal" class="modal modal-bottom sm:modal-middle">
     <div class="modal-box">
       <h3 class="font-bold text-lg">Buy Credits</h3>
-      <p class="py-4">You need {view.String(creditsNeeded)} more to run this task, aquire more to generate images</p>
-      <div class="modal-action">
+      <p class="py-4">You are short {view.String(creditsNeeded)} credits. To run this task, aquire more credits</p>
+      <div class="modal-action flex justify-between">
+        @BuyButton()
         <form method="dialog">
-        <!-- if there is a butotn in form it will close the modal -->
-          <button class="btn">Close</button>
+        <!-- if there is a button in form it will close the modal -->
+          <button class="btn ">Close</button>
         </form>
       </div>
     </div>
@@ -19,4 +20,16 @@ templ CreditsModal(creditsNeeded int) {
   <script>
     document.getElementById("credits_modal").showModal()
   </script>
+}
+
+
+
+templ BuyButton(){
+  <a
+    href="/buy-credits"
+    class=" btn bg-gradient-to-r from-pink-500 via-purple-500 via-purple-500 to-yellow-500"
+  >
+    Buy Credits
+    <i class="fa-solid fa-arrow-right"></i>
+  </a>
 }

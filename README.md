@@ -24,3 +24,7 @@ TODO Webhook url would need added as prod url
 TODO play with testing using curl?
 
 TODO deal with failed statuses - error message for NSFW stuff 
+
+TODO persist images in s3
+
+

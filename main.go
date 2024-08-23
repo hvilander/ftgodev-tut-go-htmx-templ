@@ -46,15 +46,13 @@ func main() {
     auth.Use(handler.WithAuth, handler.WithAccountSetup)
     auth.Get("/settings", handler.MakeHandler(handler.HandleSettingsIndex))
     auth.Put("/settings/account/profile", handler.MakeHandler(handler.HandleProfile))
-
     auth.Post("/auth/reset-password", handler.MakeHandler(handler.HandleResetPasswordCreate))
     auth.Put("/auth/reset-password", handler.MakeHandler(handler.HandleResetPasswordUpdate))
     auth.Get("/auth/reset-password", handler.MakeHandler(handler.HandleResetPassword))
-
     auth.Get("/generate", handler.MakeHandler(handler.HandleGenerateIndex))
     auth.Post("/generate", handler.MakeHandler(handler.HandleGenerateCreate))
-
     auth.Get("/generate/image/status/{id}", handler.MakeHandler(handler.HandleGenerateImageStatus))
+    auth.Get("/buy-credits", handler.MakeHandler(handler.HandleCreditsIndex))
   })
 
   port := os.Getenv("PORT")
