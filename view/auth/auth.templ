@@ -75,21 +75,16 @@ templ SignupSuccess(email string) {
 
 type LoginErrors struct {
   Email        string
-  Password     string
   InvalidCreds string
 }
 
 type SignupErrors struct {
   Email           string
-  Password        string
-  ConfirmPassword string
   InvalidCreds    string
 }
 
 type SignupParams struct {
   Email           string
-  Password        string
-  ConfirmPassword string
 }
 
 templ SignupForm(params SignupParams, errors SignupErrors) {
@@ -117,40 +112,6 @@ templ SignupForm(params SignupParams, errors SignupErrors) {
         </div>
       }
     </div>
-    <div class="w-full"> 
-      <div class="label">
-        <span class="label-text">password</span>
-      </div>
-      <input
-        type="password"
-        name="password"
-        value=""
-        required autocomplete="off"
-        class="input input-bordered w-full"
-      />
-      if len(errors.Password) > 0 {
-        <div class="label">
-          <span class="label-text-alt text-error">{errors.Password}</span>
-        </div>
-      }
-    </div>
-    <div class="w-full"> 
-      <div class="label">
-        <span class="label-text">confirm password</span>
-      </div>
-      <input
-        type="password"
-        name="confirmPassword"
-        value=""
-        required autocomplete="off"
-        class="input input-bordered w-full"
-      />
-      if len(errors.ConfirmPassword) > 0 {
-        <div class="label">
-          <span class="label-text-alt text-error">{errors.ConfirmPassword}</span>
-        </div>
-      }
-    </div>
     <button class="btn btn-primary w-full">
       sign up 
     </button>
@@ -160,7 +121,7 @@ templ SignupForm(params SignupParams, errors SignupErrors) {
 templ LoginForm(creds supabase.UserCredentials, errors LoginErrors) {
   <form
     hx-post="/login" 
-    hx-swap=""
+    hx-swap="outerHTML"
     class="space-y-4"
   >
     <div class="w-full"> 
@@ -182,23 +143,6 @@ templ LoginForm(creds supabase.UserCredentials, errors LoginErrors) {
         </div>
       }
     </div>
-    <label class="form-control w-full"> 
-      <div class="label">
-        <span class="label-text">password</span>
-      </div>
-      <input
-        type="password"
-        name="password"
-        value=""
-        required autocomplete="off"
-        class="input input-bordered w-full"
-      />
-      if len(errors.Password) > 0 {
-        <div class="label">
-          <span class="label-text-alt text-error">{errors.Password}</span>
-        </div>
-      }
-    </label>
       if len(errors.InvalidCreds) > 0 {
         <div class="text-sm text-error">{errors.InvalidCreds}</div>
       }
@@ -208,6 +152,12 @@ templ LoginForm(creds supabase.UserCredentials, errors LoginErrors) {
   </form>
 }
 
+templ MagicLinkSuccess(email string) {
+  <div>
+    An email with magic login link has been sent to <span class="text-info">{email}</span>
+  </div>
+}
+
 
 templ CallbackScript() {
   <script>
@@ -215,48 +165,4 @@ templ CallbackScript() {
     var newURL = url.replace("#", "?")
     window.location = newURL
   </script>
-}
-
-
-type ResetPasswordErrors struct {
-  NewPassword string
-}
-
-templ ResetPassword(){
-  @layout.App(true) {
-  <div
-    class="max-w-2xl w-full mx-auto mt-8"
-  >
-    <h1 class="text-lg font-semi-bold border-b border-app pb-2">Reset Password</h1>
-    <div class="py-6">
-      <div class="text-label mb-2">Enter New Password</div>
-      @ResetPasswordForm(ResetPasswordErrors{})
-    </div>
-  </div>
-  }
-
-}
-
-templ ResetPasswordForm(errors ResetPasswordErrors) {
-  <form
-    hx-put="/auth/reset-password"
-    hx-swap="outerHTML"
-  >
-  <div class="mb-4">
-    <input
-      class="input input-bordered w-full max-w-sm"
-      name="password"
-      type="password"
-    />
-    if len(errors.NewPassword) > 0 {
-      <div class="text-sm text-error mt-1">{errors.NewPassword}</div>
-    }
-  </div>
-    <button class="btn btn-primary">Change Password</button>
-  </form>
-}
-
-
-templ CheckEmailForPasswordReset(email string) {
-    <div>Password reset link sent to: <span class="text-info">{email}</span></div>
 }

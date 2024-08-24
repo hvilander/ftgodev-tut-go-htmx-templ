@@ -30,7 +30,6 @@ func main() {
   router.Get("/login/provider/google", handler.MakeHandler(handler.HandleLoginWithGoogle))
   router.Post("/logout", handler.MakeHandler(handler.HandleLogout))
   router.Get("/signup", handler.MakeHandler(handler.HandleSignupIndex))
-  router.Post("/signup", handler.MakeHandler(handler.HandleSignup))
   router.Get("/auth/callback", handler.MakeHandler(handler.HandleAuthCallback))
   router.Post("/replicate/callback/{userID}/{batchID}", handler.MakeHandler(handler.HandleReplicateCallback))
 
@@ -46,9 +45,6 @@ func main() {
     auth.Use(handler.WithAuth, handler.WithAccountSetup)
     auth.Get("/settings", handler.MakeHandler(handler.HandleSettingsIndex))
     auth.Put("/settings/account/profile", handler.MakeHandler(handler.HandleProfile))
-    auth.Post("/auth/reset-password", handler.MakeHandler(handler.HandleResetPasswordCreate))
-    auth.Put("/auth/reset-password", handler.MakeHandler(handler.HandleResetPasswordUpdate))
-    auth.Get("/auth/reset-password", handler.MakeHandler(handler.HandleResetPassword))
     auth.Get("/generate", handler.MakeHandler(handler.HandleGenerateIndex))
     auth.Post("/generate", handler.MakeHandler(handler.HandleGenerateCreate))
     auth.Get("/generate/image/status/{id}", handler.MakeHandler(handler.HandleGenerateImageStatus))

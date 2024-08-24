@@ -18,23 +18,6 @@ const (
 	sessionAccessTokenKey = "accessToken"
 )
 
-func HandleResetPassword(w http.ResponseWriter, r *http.Request) error { 
-  return render(r, w, auth.ResetPassword())
-}
-
-func HandleResetPasswordUpdate (w http.ResponseWriter, r *http.Request) error {
-  return hxRedirect(w, r, "/")
-}
-
-func HandleResetPasswordCreate  (w http.ResponseWriter, r *http.Request) error {
-  user := getAuthenticatedUser(r)
-  if err := sb.Client.Auth.ResetPasswordForEmail(r.Context(), user.Email); err != nil {
-    return err
-  }
-
-  return render(r, w, auth.CheckEmailForPasswordReset(user.Email))
-}
-
 func HandleAccountSetupIndex(w http.ResponseWriter, r *http.Request) error {
   return render(r, w, auth.AccountSetup())
 }
@@ -73,23 +56,17 @@ func HandleLoginIndex(w http.ResponseWriter, r *http.Request) error {
 func HandleLogin(w http.ResponseWriter, r *http.Request) error {
   creds := supabase.UserCredentials{
     Email: r.FormValue("email"),
-    Password: r.FormValue("password"),
   }
 
-   resp, err := sb.Client.Auth.SignIn(r.Context(), creds)
+  err := sb.Client.Auth.SendMagicLink(r.Context(), creds.Email)
+  if err != nil {
+    slog.Error("login error", "err", err)
+    return render(r, w, auth.LoginForm(creds, auth.LoginErrors{
+      InvalidCreds: err.Error(),
+    }))
+  }
 
-   if err != nil {
-     slog.Error("login error", "err", err)
-     return render(r, w, auth.LoginForm(creds, auth.LoginErrors{
-       InvalidCreds: "the creds are bad",
-     }))
-   }
-
-   if err := setAuthSession(r, w, resp.AccessToken); err != nil {
-     return err
-   }
-
-   return hxRedirect(w, r, "/")
+  return render(r, w, auth.SignupSuccess(creds.Email))
 }
 
 func HandleLoginWithGoogle(w http.ResponseWriter, r *http.Request) error {
@@ -121,36 +98,6 @@ func HandleLogout(w http.ResponseWriter, r *http.Request) error {
 
 func HandleSignupIndex(w http.ResponseWriter, r *http.Request) error {
   return render(r, w, auth.Signup())
-}
-
-func HandleSignup(w http.ResponseWriter, r *http.Request) error {
-  params := auth.SignupParams{
-    Email: r.FormValue("email"),
-    Password: r.FormValue("password"),
-    ConfirmPassword: r.FormValue("confirmPassword"),
-  }
-
-  errors := auth.SignupErrors{}
-  if ok := validate.New(&params, validate.Fields{
-    "Email": validate.Rules(validate.Email),
-    "Password": validate.Rules(validate.Password),
-    "ConfirmPassword": validate.Rules(validate.ConfirmPassword(params.Password)),
-
-  }).Validate(&errors); !ok {
-    return render(r, w, auth.SignupForm(params, errors))
-  }
-
-  user, err := sb.Client.Auth.SignUp(r.Context(), supabase.UserCredentials{
-    Email: params.Email,
-    Password: params.Password,
-  })
-
-
-  if err != nil {
-    return err
-  }
-
-  return render(r, w, auth.SignupSuccess(user.Email)) 
 }
 
 func HandleAuthCallback (w http.ResponseWriter, r *http.Request) error {
