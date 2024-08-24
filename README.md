@@ -28,3 +28,8 @@ TODO deal with failed statuses - error message for NSFW stuff
 TODO persist images in s3
 
 
+## Notes from deployment lesson
+
+on digital ocean > create app platform
+
+
