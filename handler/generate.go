@@ -82,6 +82,11 @@ func HandleGenerateCreate(w http.ResponseWriter, r *http.Request) error {
     return render(r,w, generate.Form(params, errors))
   }
 
+  user.Account.Credits -= creditsNeeded
+  if err := db.UpdateAccount(&user.Account); err != nil {
+    return err
+  }
+
   batchID := uuid.New()
   genParams := GenerateImageParams{
     Prompt: params.Prompt,
@@ -142,7 +147,7 @@ func generateImages(ctx context.Context, params GenerateImageParams) error {
   // from webhook.site
   webhook := replicate.Webhook{
     URL: url,
-    Events: []replicate.WebhookEventType{"start", "completed"},
+    Events: []replicate.WebhookEventType{"completed"},
   }
 
   //run a model and wait for its output

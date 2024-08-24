@@ -1,48 +1,51 @@
 package credits
 
 import (
+  "fmt"
+  "os"
   "ftgodev-tut/view/layout"
 )
 
 type Pricing struct {
   Credits   string 
   Price     string
-  ProductID string
+  PriceID string
 }
 
-var prices = []Pricing{
-  {
-    Credits: "100",
-    Price: "9.99",
-    ProductID: "",
-  },
-  {
-    Credits: "250",
-    Price: "19.99",
-    ProductID: "",
-  },
-  {
-    Credits: "600",
-    Price: "29.99",
-    ProductID: "",
-  },
-}
 
 templ Index() {
   @layout.App(true) {
     <div class="w-full max-w-4xl bg-base-300 rounded-xl mt-12 p-8 mx-auto">
       <div class="flex justify-between">
-      for _, price:= range prices {
-        @PriceCard(price)
-      }
+        @PriceCard(Pricing{
+          Credits: "100",
+          Price: "4.99",
+          PriceID: os.Getenv("ONEHUNDO_PRICE_ID"),
+        })
+         @PriceCard(Pricing{
+          Credits: "250",
+          Price: "9.99",
+          PriceID: os.Getenv("TWOFIFTY_PRICE_ID"),
+        })
       </div>
     </div>
   }
 }
 
-
+// tut used hx get in this div, I think post is more idiomatic
 templ PriceCard(pricing Pricing) {
-  <div class="border border-gray-700 hover:border-primary px-6 py-4 rounded-lg text-center cursor-pointer">
+  <div
+    hx-get={fmt.Sprintf("/checkout/create/%s", pricing.PriceID)}
+    class="
+      border
+      border-gray-700
+      hover:border-primary
+      px-6
+      py-4
+      rounded-lg
+      text-center
+      cursor-pointer
+    ">
     <div class="mb-8 text-2xl font-black text-secondary">{pricing.Credits} credits</div>
     <div class="text-xl">${pricing.Price}</div>
   </div>

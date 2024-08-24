@@ -53,6 +53,10 @@ func main() {
     auth.Post("/generate", handler.MakeHandler(handler.HandleGenerateCreate))
     auth.Get("/generate/image/status/{id}", handler.MakeHandler(handler.HandleGenerateImageStatus))
     auth.Get("/buy-credits", handler.MakeHandler(handler.HandleCreditsIndex))
+    auth.Get("/checkout/create/{priceID}", handler.MakeHandler(handler.HandleStripeCheckoutCreate))
+    auth.Get("/checkout/success/{sessionID}", handler.MakeHandler(handler.HandleStripeCheckoutSuccess))
+    auth.Get("/checkout/cancel", handler.MakeHandler(handler.HandleStripeCheckoutCancel))
+
   })
 
   port := os.Getenv("PORT")
