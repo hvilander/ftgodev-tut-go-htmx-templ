@@ -1,6 +1,15 @@
 package home
 
-import "ftgodev-tut/view/layout"
+import (
+  "ftgodev-tut/view/layout"
+  "ftgodev-tut/view"
+)
+
+
+
+templ UserLikes(amount int) {
+  <div>{view.String(amount)} user likes</div>
+}
 
 templ Index() {
   @layout.App(true) {
@@ -18,6 +27,9 @@ templ Index() {
         Generate Images
         <i class="fa-solid fa-arrow-right"></i>
       </a>
+      <div hx-get="long-process" hx-trigger="load" hx-indicator="#spinner" class="mt-20">
+        <span id="spinner" class="loading loading-ring loading-lg htmx-indicator"></span>
+      </div>
     </div>
   }
 }

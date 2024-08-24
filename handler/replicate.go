@@ -49,7 +49,7 @@ func HandleReplicateCallback(w http.ResponseWriter, r *http.Request) error {
   ERROR internal server error err="Replicate callback invalid batch id invalid UUID length: 0" path=/replicate/callback/1803a731-16c0-4d1e-9a43-b8f4c4b59a86/6605ec8c-86a2-4b1d-bb75-a54c55110ae7
   */
  batchID, err := uuid.Parse(chi.URLParam(r, "batchID"))
- fmt.Println("My batchID: %s", batchID)
+
  if err != nil {
    return fmt.Errorf("Replicate callback invalid batch id %s", err)
  }
@@ -72,7 +72,7 @@ func HandleReplicateCallback(w http.ResponseWriter, r *http.Request) error {
         images[i].Location = imageURL 
         images[i].Prompt = resp.Input.Prompt 
 
-        if err := db.UpdateImage(&images[i]); err != nil {
+        if err := db.UpdateImage(tx, &images[i]); err != nil {
 
         }
       }

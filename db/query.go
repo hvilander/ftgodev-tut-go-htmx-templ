@@ -4,10 +4,11 @@ import (
   "github.com/google/uuid"
   "context"
   "ftgodev-tut/models"
+	"github.com/uptrace/bun"
 )
 
-func CreateImage(image *models.Image) error {
-  _, err := Bun.NewInsert().
+func CreateImage(tx bun.Tx, image *models.Image) error {
+  _, err := tx.NewInsert().
     Model(image).
     Exec(context.Background())
   return err
@@ -42,8 +43,9 @@ func GetImagesByUserID(userID uuid.UUID) ([]models.Image, error) {
     Scan(context.Background())
   return images, err
 }
-func UpdateImage(image *models.Image) error {
-  _, err := Bun.NewUpdate().
+
+func UpdateImage(tx bun.Tx, image *models.Image) error {
+  _, err := tx.NewUpdate().
     Model(image).
     WherePK().
     Exec(context.Background())

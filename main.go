@@ -33,6 +33,8 @@ func main() {
   router.Get("/auth/callback", handler.MakeHandler(handler.HandleAuthCallback))
   router.Post("/replicate/callback/{userID}/{batchID}", handler.MakeHandler(handler.HandleReplicateCallback))
 
+  router.Get("/long-process", handler.MakeHandler(handler.HandleLongProcess))
+
   // Auth required
   router.Group( func(auth chi.Router) {
     auth.Use(handler.WithAuth)
