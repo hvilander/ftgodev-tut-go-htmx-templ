@@ -1,4 +1,4 @@
-FROM golang:1.22-apline as builder
+FROM golang:apline as builder
 
 WORKDIR /app
 RUN apk add --no-cache make nodejs npm
