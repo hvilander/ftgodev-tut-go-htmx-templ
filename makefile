@@ -18,9 +18,8 @@ templ:
 	@templ generate --watch --proxy="http://localhost:3000"
 
 build: 
-	tailwindcss -i view/css/input.css -o public/styles.css
 	@templ generate view
-	@go build -o bin/ftgodev-tut main.go
+	@go build -tags prod -o /ftgodev-tut . 
 
 
 up: ## DB migration up
