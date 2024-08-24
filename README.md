@@ -30,6 +30,9 @@ TODO persist images in s3
 
 ## Notes from deployment lesson
 
-on digital ocean > create app platform
+Added dockerfile
+
+on digital ocean > create app platform > Github repository
+
 
 

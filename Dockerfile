@@ -1,13 +1,16 @@
 FROM golang:1.22-apline as builder
 
 WORKDIR /app
+RUN apk add --no-cache make nodejs npm
+
 COPY . ./
-RUN go build -o /test-app main.go
+RUN make install
+RUN make build
 RUN > /app/.env
 
 FROM scratch
-COPY --from=builder /test-app /test-app
+COPY --from=builder /ftgodev-tut /ftgodev-tut
 COPY --from=builder /app/.env .env
 
-EXPOSE 300
-ENTRYPOINT [ "./test-app" ]
+EXPOSE 3000
+ENTRYPOINT [ "./ftgodev-tut" ]
