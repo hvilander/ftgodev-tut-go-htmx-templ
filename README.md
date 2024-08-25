@@ -36,3 +36,6 @@ on digital ocean > create app platform > Github repository
 
 
 
+Was able to get the deployment to run successfully. 
+The app could not run, i.e. could not log in.
+Destoryed the app service.. I think it is time to move to things-i-want...
