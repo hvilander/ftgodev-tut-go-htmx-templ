@@ -4,8 +4,8 @@ WORKDIR /app
 RUN apk add --no-cache make nodejs npm
 
 COPY . ./
-RUN make build
 RUN make install
+RUN make build
 RUN > /app/.env
 
 FROM scratch
