@@ -59,7 +59,7 @@ func main() {
 
   port := os.Getenv("PORT")
   slog.Info("server started", "port", port)
-  log.Fatal(http.ListenAndServe(port, router))
+  log.Fatal(http.ListenAndServe("3000", router))
 }
 
 // init everything
