@@ -1,6 +1,5 @@
 .env
 bin
-*_templ.go*
 
 # Ignore vim files:
 *~
@@ -10,5 +9,3 @@ bin
 
 tmp
 
-view/**/*.txt
-vendor/*
