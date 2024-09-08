@@ -14,7 +14,7 @@ import (
   "ftgodev-tut/db"
   "ftgodev-tut/pkg/kit/validate"
 
-	"github.com/uptrace/bun"
+  "github.com/uptrace/bun"
   "github.com/replicate/replicate-go"
   "github.com/go-chi/chi/v5"
   "github.com/google/uuid"

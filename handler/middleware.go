@@ -71,8 +71,8 @@ func WithUser(next http.Handler) http.Handler{
       return
     }
 
-		store := sessions.NewCookieStore([]byte(os.Getenv("SESSION_SECRET")))
-		session, err := store.Get(r, sessionUserKey)
+    store := sessions.NewCookieStore([]byte(os.Getenv("SESSION_SECRET")))
+    session, err := store.Get(r, sessionUserKey)
 
     if err != nil {
       next.ServeHTTP(w,r)
@@ -85,22 +85,22 @@ func WithUser(next http.Handler) http.Handler{
       return
     }
 
-		resp, err := sb.Client.Auth.User(r.Context(), accessToken.(string))
-		if err != nil {
-			next.ServeHTTP(w, r)
-			return
-		}
+    resp, err := sb.Client.Auth.User(r.Context(), accessToken.(string))
+    if err != nil {
+      next.ServeHTTP(w, r)
+      return
+    }
 
-		user := models.AuthenticatedUser{
-			ID:          uuid.MustParse(resp.ID),
-			Email:       resp.Email,
-			IsLoggedIn:    true,
-			//AccessToken: accessToken.(string),
-		}
+    user := models.AuthenticatedUser{
+      ID:          uuid.MustParse(resp.ID),
+      Email:       resp.Email,
+      IsLoggedIn:    true,
+      //AccessToken: accessToken.(string),
+    }
 
-		ctx := context.WithValue(r.Context(), models.UserContextKey, user)
-		next.ServeHTTP(w, r.WithContext(ctx))
-	}
+    ctx := context.WithValue(r.Context(), models.UserContextKey, user)
+    next.ServeHTTP(w, r.WithContext(ctx))
+  }
 
   return http.HandlerFunc(fn)
 }
